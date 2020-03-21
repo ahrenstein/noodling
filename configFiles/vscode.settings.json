@@ -1,0 +1,28 @@
+{
+    // Privacy settings
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "terraform.telemetry.enabled": false,
+    // Update settings
+    "update.enableWindowsBackgroundUpdates": false,
+    "extensions.autoUpdate": false,
+    // IDE settings
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "editor.dragAndDrop": false,
+    "editor.emptySelectionClipboard": false,
+    "window.clickThroughInactive": false,
+    "window.nativeFullScreen": false,
+    "window.newWindowDimensions": "default",
+    "window.restoreFullscreen": true,
+    "window.restoreWindows": "all",
+    "editor.fontSize": 13,
+    "workbench.startupEditor": "none",
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingQuotes": "never",
+    "files.insertFinalNewline": true,
+    "editor.autoIndent": true,
+    // Git settings
+    "git.enableCommitSigning": true,
+    // Terraform settings
+    }
