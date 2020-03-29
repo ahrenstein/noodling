@@ -24,6 +24,8 @@ Some config files I want to preserve:
 upstream LDAP server
 4. [VSCode Settings](configFiles/vscode.settings.json) - My settings for VSCode
     1. [VSCode Extensions](docs/VSCodeExtensions.md) - VSCode extensions I use with the above config
+5. [Nintendo Switch Connection Test](configFiles/nginx_switch_connection_test.conf) - NginX site to spoof the Nintendo Switch's
+"I can reach the internet" test page
 
 Other files in this repo
 ------------------------
