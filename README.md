@@ -12,6 +12,7 @@ Currently the following scripts are in the repo:
 1. [GitHub Unfollow](python/unfollow_github_org.py) - A quick python script to unfollow all repos in a GitHub org
 2. [encrypt_data_bag.rb](ruby/encrypt_data_bag.rb) and [decrypt_data_bag.rb](ruby/decrypt_data_bag.rb) - Encrypt and
 decrypt Chef databags locally.
+3. [dockerClean.sh](bash/dockerClean.sh) - Delete all local docker containers and images.
 
 Config files in this repo
 -------------------------
