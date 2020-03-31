@@ -13,6 +13,9 @@ Currently the following scripts are in the repo:
 2. [encrypt_data_bag.rb](ruby/encrypt_data_bag.rb) and [decrypt_data_bag.rb](ruby/decrypt_data_bag.rb) - Encrypt and
 decrypt Chef databags locally.
 3. [dockerClean.sh](bash/dockerClean.sh) - Delete all local docker containers and images.
+4. [Download Apple Music Playlists](applescript/downloadAppleMusicPlaylists.scpt) - A simple Apple Script to download
+all of my playlists for offline listening on macOS while I wait for Apple to fix the missing "Download" right click
+context menu item
 
 Config files in this repo
 -------------------------
