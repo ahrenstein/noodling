@@ -107,7 +107,7 @@ if __name__ == '__main__':
         description="Search a Google Sheet pubhtml for pugs")
     # Add arguments
     PARSER.add_argument(
-        '-e', '--emailAddress', type=str, help='Email address to send resutls to', required=True)
+        '-e', '--emailAddress', type=str, help='Email address to send results to', required=True)
     PARSER.add_argument(
         '-a', '--SESAccessKey', type=str, help='AWS SES Access Key', required=True)
     PARSER.add_argument(
