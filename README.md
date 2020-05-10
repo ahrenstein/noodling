@@ -16,6 +16,8 @@ decrypt Chef databags locally.
 4. [Download Apple Music Playlists](applescript/downloadAppleMusicPlaylists.scpt) - A simple Apple Script to download
 all of my playlists for offline listening on macOS while I wait for Apple to fix the missing "Download" right click
 context menu item
+5. [pug_finder.py](python/pug_finder.py) - A simple script that searches a Google Sheet's pubhtml URL for the string "PUG".
+It emails the results via AWS SES using SMTP
 
 Config files in this repo
 -------------------------
