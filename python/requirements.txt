@@ -3,3 +3,4 @@ argparse
 pylint
 requests
 beautifulsoup4
+lxml
