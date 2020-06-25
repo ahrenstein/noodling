@@ -31,6 +31,7 @@ upstream LDAP server
     1. [VSCode Extensions](docs/VSCodeExtensions.md) - VSCode extensions I use with the above config
 5. [Nintendo Switch Connection Test](configFiles/nginx_switch_connection_test.conf) - NginX site to spoof the Nintendo Switch's
 "I can reach the internet" test page
+6. [My zsh config](zsh/zshrc) - My zsh configuration contained in a single file
 
 Other files in this repo
 ------------------------
