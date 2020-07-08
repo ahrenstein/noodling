@@ -15,6 +15,9 @@ alias fixgpg='gpg-connect-agent reloadagent /bye'
 alias history='history -E'
 alias duckexpire='defaults write ~/Library/Preferences/ch.sudo.cyberduck.plist s3.url.expire.seconds'
 
+# Make rm behave normally
+setopt rmstarsilent
+
 ### Custom Prompt ###
 setopt prompt_subst
 autoload -U colors && colors # Enable colors in prompt
