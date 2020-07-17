@@ -1,3 +1,14 @@
+#
+# zsh Script:: .zshrc
+#
+# Copyright 2020, Matthew Ahrenstein, All Rights Reserved.
+#
+# Maintainers:
+# - Matthew Ahrenstein: @ahrenstein
+#
+# See LICENSE
+#
+
 # Aliases
 alias l='ls -lh'
 alias ll='ls -lhtr'
