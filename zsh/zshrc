@@ -9,7 +9,6 @@ alias root='ssh -A -lroot'
 alias mdate='date +%m%d%G%H%M'
 alias cssh='csshx --screen 2 --ssh_args "-A"'
 alias rcssh='csshx --screen 2 --ssh_args "-A -lroot"'
-alias lock='open -a ScreenSaverEngine'
 alias sed='gsed'
 alias fixgpg='gpg-connect-agent reloadagent /bye'
 alias history='history -E'
@@ -129,11 +128,16 @@ fi
 # Enable thefuck
 eval "$(thefuck --alias)"
 
-# Set ruby to the 2.7.0 environment
+# Set ruby to the global rbenv environment
 rubydev()
 {
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 }
+
+# Set Python to the global pyenv environment
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
 
 # Help keep repos clean by deleting branches that no longer exist upstream
 git_prune()
@@ -141,4 +145,3 @@ git_prune()
 git remote prune origin
 git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
 }
-
