@@ -1,14 +1,3 @@
-#
-# zsh Script:: .zshrc
-#
-# Copyright 2020, Matthew Ahrenstein, All Rights Reserved.
-#
-# Maintainers:
-# - Matthew Ahrenstein: @ahrenstein
-#
-# See LICENSE
-#
-
 # Aliases
 alias l='ls -lh'
 alias ll='ls -lhtr'
@@ -20,9 +9,10 @@ alias root='ssh -A -lroot'
 alias mdate='date +%m%d%G%H%M'
 alias cssh='csshx --screen 2 --ssh_args "-A"'
 alias rcssh='csshx --screen 2 --ssh_args "-A -lroot"'
+alias lock='open -a ScreenSaverEngine'
 alias sed='gsed'
 alias fixgpg='gpg-connect-agent reloadagent /bye'
-alias history='history -E'
+alias history='history -E 0'
 alias duckexpire='defaults write ~/Library/Preferences/ch.sudo.cyberduck.plist s3.url.expire.seconds'
 
 # Make rm behave normally
@@ -105,6 +95,9 @@ export HISTSIZE=5000
 export SAVEHIST=5000
 export HISTFILE=~/.zsh_history
 
+# Custom key bindings
+bindkey '^R' history-incremental-search-backward
+
 # Set vim as the default editor
 export EDITOR=vim
 
@@ -139,13 +132,10 @@ fi
 # Enable thefuck
 eval "$(thefuck --alias)"
 
-# Set ruby to the global rbenv environment
-rubydev()
-{
+# Set ruby to the 2.7.0 environment
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-}
 
-# Set Python to the global pyenv environment
+# Set the Python environment to Hombrew's 3.8.0
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
@@ -156,3 +146,4 @@ git_prune()
 git remote prune origin
 git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
 }
+
