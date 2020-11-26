@@ -1,4 +1,4 @@
-# Aliases
+### Aliases ###
 alias l='ls -lh'
 alias ll='ls -lhtr'
 alias rm='rm -i'
@@ -15,10 +15,32 @@ alias fixgpg='gpg-connect-agent reloadagent /bye'
 alias history='history -E 0'
 alias duckexpire='defaults write ~/Library/Preferences/ch.sudo.cyberduck.plist s3.url.expire.seconds'
 
+### Behavior Changes ###
+
 # Make rm behave normally
 setopt rmstarsilent
 
-### Custom Prompt ###
+# Autocomplete like bash
+setopt autolist
+unsetopt menucomplete
+
+# Disable globbing
+unsetopt nomatch
+
+# Bash-like key bindings
+bindkey -e
+bindkey  "^[[3~"  delete-char
+bindkey '^R' history-incremental-search-backward
+
+# History customization
+setopt INC_APPEND_HISTORY
+setopt EXTENDED_HISTORY
+export HISTTIMEFORMAT="%m/%d/%G %H:%M:%S "
+export HISTSIZE=5000
+export SAVEHIST=5000
+export HISTFILE=~/.zsh_history
+
+### Custom git Prompt ###
 setopt prompt_subst
 autoload -U colors && colors # Enable colors in prompt
 
@@ -85,23 +107,8 @@ git_prompt_string() {
 
 PS1='%F{1}%n%f%F{white}@%f%F{4}%m%f%F{2}%~%f%F{white}:%f %F{white}%*%f%F{white}
 $(git_prompt_string) $%f '
-### End Custom Prompt ###
 
-# History customization
-setopt INC_APPEND_HISTORY
-setopt EXTENDED_HISTORY
-export HISTTIMEFORMAT="%m/%d/%G %H:%M:%S "
-export HISTSIZE=5000
-export SAVEHIST=5000
-export HISTFILE=~/.zsh_history
-
-# Custom key bindings
-bindkey -e
-bindkey  "^[[3~"  delete-char
-bindkey '^R' history-incremental-search-backward
-
-# Disable globbing
-unsetopt nomatch
+### Mac Tweaks ###
 
 # Set vim as the default editor
 export EDITOR=vim
@@ -119,6 +126,7 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 # Homebrew PATHs
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"
 
+### Custom Functions ###
 #Start GPG Agent if not already started
 if [ ! -f "/tmp/gpgStarted.lock" ]; then
     gpg-connect-agent reloadagent /bye
@@ -134,8 +142,17 @@ if [ -f "${HOME}/.gpg-agent-info" ]; then
 fi
 #}
 
+# Help keep repos clean by deleting branches that no longer exist upstream
+git_prune()
+{
+git remote prune origin
+git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
+}
+
 # Enable thefuck
 eval "$(thefuck --alias)"
+
+### Dev Environments ###
 
 # Set ruby to the 2.7.0 environment
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -144,11 +161,3 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
-
-# Help keep repos clean by deleting branches that no longer exist upstream
-git_prune()
-{
-git remote prune origin
-git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
-}
-
