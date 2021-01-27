@@ -154,10 +154,21 @@ eval "$(thefuck --alias)"
 
 ### Dev Environments ###
 
-# Set ruby to the 2.7.0 environment
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# Ruby delays new shell sessions so it's gated behind a function
+rubydev()
+{
+	# Set ruby-build to use brew's OpenSSL
+	export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+	# Set ruby to the 2.7.0 environment
+	if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+}
 
 # Set the Python environment to Hombrew's 3.8.0
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+	eval "$(pyenv init -)"
+fi
+
+# If it exists, load an optional config file that is manually managed
+if [[ -f ".extendzsh" ]]; then
+	source .extendzsh
 fi
