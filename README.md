@@ -19,7 +19,6 @@ context menu item
 5. [pug_finder.py](python/pug_finder.py) - A simple script that searches a Google Sheet's pubhtml URL for the string "PUG".
 It emails the results via AWS SES using SMTP
 
-Config files in this repo
 -------------------------
 Some config files I want to preserve:
 
@@ -38,6 +37,14 @@ Other files in this repo
 Any other files that are useful:
 
 1. [Standard gitignore](.gitignore) - My usual .gitignore file (Also used by this repo)
+2. [pre-commit configuration](.pre-commit-config.yaml) - The configuration used by GitHub actions to enforce pre-commit
+
+pre-commit
+----------
+This repo uses Yelp's [pre-commit](https://pre-commit.com/) to manage some pre-commit hooks automatically.  
+In order to use the hooks, make sure you have `pre-commit` in your `$PATH`.  
+Once in your path you should run `pre-commit install` in order to configure it. If you push commits that fail pre-commit, your PR will
+not pass tests.
 
 Why not gists?
 --------------
