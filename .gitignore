@@ -244,7 +244,7 @@ inspec.lock
 pkg/
 
 ####################
-## Pytohn detritus
+## Python detritus
 ####################
 
 # Virtual environments
