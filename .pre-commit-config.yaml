@@ -14,3 +14,4 @@ repos:
         args:
           - --ignore-imports=yes
           - --fail-under=9
+          - --disable=E0401
