@@ -18,6 +18,9 @@ all of my playlists for offline listening on macOS while I wait for Apple to fix
 context menu item
 5. [pug_finder.py](python/pug_finder.py) - A simple script that searches a Google Sheet's pubhtml URL for the string "PUG".
 It emails the results via AWS SES using SMTP
+6. [crypto_pricing.py](python/crypto_pricing.py) - A script that manages a specific Google sheet I own regarding crypto prices.
+Config files in this repo
+   1. [crypto_functions.py](python/crypto_functions.py) - A small library for crypto currency functions
 
 -------------------------
 Some config files I want to preserve:
