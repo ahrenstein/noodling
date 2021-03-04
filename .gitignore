@@ -250,3 +250,9 @@ pkg/
 # Virtual environments
 pyenv/
 venv/
+__pycache__/
+
+####################
+## Google Auth
+####################
+token.pickle

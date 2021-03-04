@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+"""Some crypto functions for use in various scripts"""
+#
+# Python Script:: crypto_functions.py
+#
+# Linter:: pylint
+#
+# Copyright 2021, Matthew Ahrenstein, All Rights Reserved.
+#
+# Maintainers:
+# - Matthew Ahrenstein: matt@ahrenstein.com
+#
+# See LICENSE
+#
+
+import json
+import time
+import hmac
+import hashlib
+import requests
+from requests.auth import AuthBase
+from pycoingecko import CoinGeckoAPI
+
+
+# Create custom authentication for Coinbase API
+# as per https://developers.coinbase.com/docs/wallet/api-key-authentication
+class CoinbaseWalletAuth(AuthBase):
+    """
+    Coinbase provided authentication method with minor fixes
+    """
+    def __init__(self, api_key, secret_key):
+        self.api_key = api_key
+        self.secret_key = secret_key
+
+    def __call__(self, request):
+        timestamp = str(int(time.time()))
+        message = timestamp + request.method + request.path_url + (request.body or '')
+        # Coinbase's code example is wrong. The key and message must be converted to bytes for HMAC
+        key_bytes = bytes(self.secret_key, 'latin-1')
+        data_bytes = bytes(message, 'latin-1')
+        signature = hmac.new(key_bytes, data_bytes, hashlib.sha256).hexdigest()
+
+        request.headers.update({
+            'CB-ACCESS-SIGN': signature,
+            'CB-ACCESS-TIMESTAMP': timestamp,
+            'CB-ACCESS-KEY': self.api_key,
+        })
+        return request
+
+
+def get_coinbase_creds_from_file(credentials_file):
+    """Open a JSON file and get Coinbase credentials out of it
+    Args:
+        credentials_file: A JSON file containing Coinbase credentials
+
+    Returns:
+        coinbase_api_key: An API key for Coinbase APIv2
+        coinbase_api_secret: An API secret for Coinbase APIv2
+    """
+    with open(credentials_file) as creds_file:
+        data = json.load(creds_file)
+    coinbase_api_key = data['API_Key']
+    coinbase_api_secret = data['API_Secret']
+    return coinbase_api_key, coinbase_api_secret
+
+
+def coingecko_price_check(coin):
+    """Check the price of a cryptocurrency against CoinGecko to see
+    if it fell below the minimum price
+    Args:
+        coin: The coin/token that we care about
+    Returns:
+        coin_current_price: The current price of the coin
+    """
+    # Instantiate CoinGecko API and process query
+    coingecko_client = CoinGeckoAPI()
+    coin_current_price = float(coingecko_client.get_price
+                               (ids=coin, vs_currencies="usd")[coin]['usd'])
+    return coin_current_price
+
+
+def coinbase_price_check(coinbase_api_key, coinbase_api_secret,
+                         coin):
+    """Check the price of a cryptocurrency against Coinbase to see
+    if it fell below the minimum price
+    Args:
+        coinbase_api_key: An API key for Coinbase APIv2
+        coinbase_api_secret: An API secret for Coinbase APIv2
+        coin: The coin/token that we care about
+    Returns:
+        coin_current_price: The current price of the coin
+    """
+    # Instantiate Coinbase API and query the price
+    api_url = 'https://api.coinbase.com/v2/'
+    coinbase_auth = CoinbaseWalletAuth(coinbase_api_key, coinbase_api_secret)
+    api_query = "prices/%s-USD/spot" % coin
+    result = requests.get(api_url + api_query, auth=coinbase_auth)
+    coin_current_price = float(result.json()['data']['amount'])
+    return coin_current_price
