@@ -20,7 +20,6 @@ import time
 import hmac
 import hashlib
 import requests
-import sys
 from requests.auth import AuthBase
 from pycoingecko import CoinGeckoAPI
 
@@ -28,6 +27,9 @@ from pycoingecko import CoinGeckoAPI
 # Create custom authentication for CoinbasePro
 # as per https://docs.pro.coinbase.com/?python#creating-a-request
 class CoinbaseProAuth(AuthBase):
+    """
+        Coinbase Pro provided authentication method with minor fixes
+        """
     def __init__(self, api_key, secret_key, passphrase):
         self.api_key = api_key
         self.secret_key = secret_key
@@ -146,7 +148,7 @@ def coinbase_price_check(coinbase_api_key, coinbase_api_secret,
 
 
 def cbpro_tx_grab(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase):
-    """Grab all Coinbase Pro transactions in the last 12 hours
+    """Grab all Coinbase Pro transactions in the last 24 hours
     Args:
         cbpro_api_key: An API key for Coinbase Pro
         cbpro_api_secret: An API secret for Coinbase Pro
@@ -155,7 +157,7 @@ def cbpro_tx_grab(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase):
         coin_current_price: The current price of the coin
     """
     # Instantiate Coinbase API and query the price
-    timestamp = (datetime.datetime.now() - datetime.timedelta(hours=12)).isoformat()
+    timestamp = (datetime.datetime.now() - datetime.timedelta(hours=24)).isoformat()
     api_url = 'https://api.pro.coinbase.com/'
     coinbase_auth = CoinbaseProAuth(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase)
     api_query = "transfers?before=%s" % timestamp

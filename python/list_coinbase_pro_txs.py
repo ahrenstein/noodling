@@ -30,8 +30,12 @@ def main(coinbase_creds_file):
     """
     cbpro_creds = crypto_functions.get_cbpro_creds_from_file(coinbase_creds_file)
     result = crypto_functions.cbpro_tx_grab(cbpro_creds[0], cbpro_creds[1], cbpro_creds[2])
-    transactions = result.json()
-    print(json.dumps(transactions, indent=2))
+    transactions = json.dumps(result.json(), indent=2)
+    if transactions == "[]":
+        print("No transactions found in the last 24 hours")
+    else:
+        print("Y U No")
+        print(transactions)
 
 
 if __name__ == '__main__':

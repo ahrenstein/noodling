@@ -54,10 +54,11 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
     coinbase_creds_file: The path to your Coinbase coinbase.json
     """
     # NOTE: All ranges are hardcoded as this script is for a very specific use case
+    # Auth to Coinbase
+    coinbase_creds = crypto_functions.get_coinbase_creds_from_file(coinbase_creds_file)
     # Auth to Google using https://developers.google.com/sheets/api/quickstart/python
     google_creds = None
-    coinbase_creds = crypto_functions.get_coinbase_creds_from_file(coinbase_creds_file)
-    # The file token.pickle stores the user's access and refresh tokens, and is
+    # The file token.pickle stores the user's access token, and is
     # created automatically when the authorization flow completes for the first
     # time.
     if os.path.exists('token.pickle'):
@@ -65,12 +66,9 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
             google_creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not google_creds or not google_creds.valid:
-        if google_creds and google_creds.expired and google_creds.refresh_token:
-            google_creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                credentials_file, "https://www.googleapis.com/auth/spreadsheets")
-            google_creds = flow.run_local_server(port=0)
+        flow = InstalledAppFlow.from_client_secrets_file(
+            credentials_file, "https://www.googleapis.com/auth/spreadsheets")
+        google_creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
             pickle.dump(google_creds, token)
