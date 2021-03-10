@@ -14,12 +14,14 @@
 #
 
 import base64
+import csv
 import datetime
 import json
 import time
 import hmac
 import hashlib
 import requests
+import sys
 from requests.auth import AuthBase
 from pycoingecko import CoinGeckoAPI
 
@@ -147,19 +149,57 @@ def coinbase_price_check(coinbase_api_key, coinbase_api_secret,
     return coin_current_price
 
 
-def cbpro_tx_grab(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase):
-    """Grab all Coinbase Pro transactions in the last 24 hours
+def cbpro_tx_grab(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase, hours):
+    """Grab all Coinbase Pro transactions in the last X hours
     Args:
         cbpro_api_key: An API key for Coinbase Pro
         cbpro_api_secret: An API secret for Coinbase Pro
         cbpro_api_passphrase: An API passphrase for Coinbase Pro
+        hours: How far back in hours you want to look
+
     Returns:
-        coin_current_price: The current price of the coin
+        result: Coinbase transactions as request Response
     """
     # Instantiate Coinbase API and query the price
-    timestamp = (datetime.datetime.now() - datetime.timedelta(hours=24)).isoformat()
+    timestamp = (datetime.datetime.utcnow() - datetime.timedelta(hours=hours)).isoformat()
     api_url = 'https://api.pro.coinbase.com/'
     coinbase_auth = CoinbaseProAuth(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase)
     api_query = "transfers?before=%s" % timestamp
     result = requests.get(api_url + api_query, auth=coinbase_auth)
     return result
+
+
+def cbpro_order_grab(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase, hours):
+    """Grab all Coinbase Pro Orders in the last X hours
+    Args:
+        cbpro_api_key: An API key for Coinbase Pro
+        cbpro_api_secret: An API secret for Coinbase Pro
+        cbpro_api_passphrase: An API passphrase for Coinbase Pro
+        hours: How far back in hours you want to look
+
+    """
+    # Instantiate Coinbase API and query the price
+    timestamp = (datetime.datetime.utcnow() - datetime.timedelta(hours=hours)).isoformat()
+    api_url = 'https://api.pro.coinbase.com/'
+    coinbase_auth = CoinbaseProAuth(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase)
+    api_query = 'orders?status=done&before=%s' % timestamp
+    transactions = json.dumps(requests.get(api_url
+                                           + api_query, auth=coinbase_auth).json(), indent=2)
+    if transactions == "[]":
+        print("No orders were found in the last %s hours." % hours)
+    else:
+        csv_file = open('cbpro_orders.csv', mode='w')
+        field_names = ['Fill Date', 'Currency', 'Done Reason', 'Fees',
+                       'Executed Value', 'Total Cost', 'Settled?', 'Status']
+        writer = csv.DictWriter(csv_file, fieldnames=field_names)
+        writer.writeheader()
+        for order in json.loads(transactions):
+            total_cost = float(order['fill_fees']) + float(order['executed_value'])
+            writer.writerow({'Fill Date': order['done_at'],
+                             'Currency': order['product_id'],
+                             'Done Reason': order['done_reason'],
+                             'Fees': order['fill_fees'],
+                             'Executed Value': order['executed_value'],
+                             'Total Cost': str(total_cost),
+                             'Settled?': str(order['settled']),
+                             'Status': order['status']})
