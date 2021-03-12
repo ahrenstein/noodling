@@ -35,6 +35,7 @@ upstream LDAP server
 5. [Nintendo Switch Connection Test](configFiles/nginx_switch_connection_test.conf) - NginX site to spoof the Nintendo Switch's
 "I can reach the internet" test page
 6. [My Mac zsh config](zsh/mac-zshrc) - My macOS zsh configuration contained in a single file
+    1. [fzf config](zsh/fzf.zsh) - The `~/.fzf.zsh` configuration file that pairs with my Mac zsh config
 
 Other files in this repo
 ------------------------

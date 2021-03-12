@@ -173,4 +173,5 @@ if [[ -f ".extendzsh" ]]; then
 	source .extendzsh
 fi
 
+# Enable a better reverse history
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
