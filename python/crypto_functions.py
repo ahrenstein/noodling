@@ -14,14 +14,12 @@
 #
 
 import base64
-import csv
 import datetime
 import json
 import time
 import hmac
 import hashlib
 import requests
-import sys
 from requests.auth import AuthBase
 from pycoingecko import CoinGeckoAPI
 
@@ -177,29 +175,13 @@ def cbpro_order_grab(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase, hour
         cbpro_api_passphrase: An API passphrase for Coinbase Pro
         hours: How far back in hours you want to look
 
+    Returns:
+        result: Coinbase orders as request Response
     """
     # Instantiate Coinbase API and query the price
     timestamp = (datetime.datetime.utcnow() - datetime.timedelta(hours=hours)).isoformat()
     api_url = 'https://api.pro.coinbase.com/'
     coinbase_auth = CoinbaseProAuth(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase)
     api_query = 'orders?status=done&before=%s' % timestamp
-    transactions = json.dumps(requests.get(api_url
-                                           + api_query, auth=coinbase_auth).json(), indent=2)
-    if transactions == "[]":
-        print("No orders were found in the last %s hours." % hours)
-    else:
-        csv_file = open('cbpro_orders.csv', mode='w')
-        field_names = ['Fill Date', 'Currency', 'Done Reason', 'Fees',
-                       'Executed Value', 'Total Cost', 'Settled?', 'Status']
-        writer = csv.DictWriter(csv_file, fieldnames=field_names)
-        writer.writeheader()
-        for order in json.loads(transactions):
-            total_cost = float(order['fill_fees']) + float(order['executed_value'])
-            writer.writerow({'Fill Date': order['done_at'],
-                             'Currency': order['product_id'],
-                             'Done Reason': order['done_reason'],
-                             'Fees': order['fill_fees'],
-                             'Executed Value': order['executed_value'],
-                             'Total Cost': str(total_cost),
-                             'Settled?': str(order['settled']),
-                             'Status': order['status']})
+    result = requests.get(api_url + api_query, auth=coinbase_auth)
+    return result
