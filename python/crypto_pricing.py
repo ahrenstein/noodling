@@ -20,7 +20,6 @@ import pickle
 import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
 import crypto_functions
 
 
@@ -87,7 +86,7 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
     else:
         for row in values:
             # Logic to use CoinGecko for coins Coinbase doesn't like
-            if row[0] not in ["defipulse-index", "dogecoin", "sushi", "cardano"]:
+            if row[0] not in ["defipulse-index", "dogecoin", "sushi", "tribe-2"]:
                 current_prices.append([crypto_functions.coinbase_price_check(
                     coinbase_creds[0], coinbase_creds[1], row[0])])
             else:
