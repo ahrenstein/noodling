@@ -77,7 +77,7 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
     # Call the Sheets API
     sheet = service.spreadsheets()
     result = sheet.values().get(spreadsheetId=sheet_id,
-                                range="Simple!H11:H32").execute()
+                                range="Simple!H11:H52").execute()
     values = result.get('values', [])
     current_prices = []
     date_range = []
@@ -85,16 +85,19 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
         print('No data found.')
     else:
         for row in values:
+            # Hardcoding BANK to always be zero unless it starts seeing solid liquidity
+            if row[0] in ["bankless-dao"]:
+                current_prices.append([0])
             # Logic to use CoinGecko for coins Coinbase doesn't like
-            if row[0] not in ["defipulse-index", "dogecoin", "sushi",
+            elif row[0] in ["defipulse-index", "dogecoin", "sushi",
                               "tribe-2", "ripple", "money-party"]:
+                current_prices.append([crypto_functions.coingecko_price_check(row[0])])
+            else:
                 current_prices.append([crypto_functions.coinbase_price_check(
                     coinbase_creds[0], coinbase_creds[1], row[0])])
-            else:
-                current_prices.append([crypto_functions.coingecko_price_check(row[0])])
             date_range.append([datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S")])
-        update_sheet_column(sheet, sheet_id, "Simple!J11:J32", current_prices)
-        update_sheet_column(sheet, sheet_id, "Simple!L11:L32", date_range)
+        update_sheet_column(sheet, sheet_id, "Simple!J11:J52", current_prices)
+        update_sheet_column(sheet, sheet_id, "Simple!L11:L52", date_range)
 
 
 if __name__ == '__main__':
