@@ -90,7 +90,8 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
                 current_prices.append([0])
             # Logic to use CoinGecko for coins Coinbase doesn't like
             elif row[0] in ["defipulse-index", "dogecoin", "sushi",
-                              "tribe-2", "ripple", "money-party"]:
+                            "tribe-2", "ripple", "money-party",
+                            "btc-2x-flexible-leverage-index"]:
                 current_prices.append([crypto_functions.coingecko_price_check(row[0])])
             else:
                 current_prices.append([crypto_functions.coinbase_price_check(
