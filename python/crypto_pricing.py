@@ -88,6 +88,9 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
             # Hardcoding BANK to always be zero unless it starts seeing solid liquidity
             if row[0] in ["bankless-dao"]:
                 current_prices.append([0])
+            # Hardcoding QuickSwap liquidity tokens to $1 until I figure out a better method
+            elif row[0].startswith("QUICK"):
+                current_prices.append([1])
             # Logic to use CoinGecko for coins Coinbase doesn't like
             elif row[0] in ["defipulse-index", "dogecoin", "sushi",
                             "tribe-2", "ripple", "money-party",
