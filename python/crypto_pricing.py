@@ -85,9 +85,12 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
         print('No data found.')
     else:
         for row in values:
-            # Hardcoding BANK to always be zero unless it starts seeing solid liquidity
+            # Hardcoding BANK to 0 since I can't see leaving the DAO anytime soon!
             if row[0] in ["bankless-dao"]:
                 current_prices.append([0])
+            # Hardcoding DAI/USDC/GUSD to always be $1 for the sake of math
+            elif row[0] in ["DAI", "USDC", "GUSD"]:
+                current_prices.append([1])
             # Logic to use CoinGecko for coins Coinbase doesn't like
             elif row[0] in ["defipulse-index", "tribe-2", "ripple",
                             "money-party", "btc-2x-flexible-leverage-index"]:
