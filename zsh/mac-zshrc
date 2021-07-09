@@ -146,7 +146,7 @@ fi
 git_prune()
 {
 git remote prune origin
-git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d
+git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D
 }
 
 # Enable thefuck
