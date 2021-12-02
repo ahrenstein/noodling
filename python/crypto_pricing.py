@@ -77,7 +77,7 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
     # Call the Sheets API
     sheet = service.spreadsheets()
     result = sheet.values().get(spreadsheetId=sheet_id,
-                                range="Simple!H11:H52").execute()
+                                range="Simple!H11:H51").execute()
     values = result.get('values', [])
     current_prices = []
     date_range = []
@@ -101,8 +101,8 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
                 current_prices.append([crypto_functions.coinbase_price_check(
                     coinbase_creds[0], coinbase_creds[1], row[0])])
             date_range.append([datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S")])
-        update_sheet_column(sheet, sheet_id, "Simple!J11:J52", current_prices)
-        update_sheet_column(sheet, sheet_id, "Simple!L11:L52", date_range)
+        update_sheet_column(sheet, sheet_id, "Simple!J11:J51", current_prices)
+        update_sheet_column(sheet, sheet_id, "Simple!L11:L51", date_range)
 
 
 if __name__ == '__main__':
