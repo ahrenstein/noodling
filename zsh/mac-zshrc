@@ -127,6 +127,11 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 # Homebrew PATHs
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"
 
+# Enable Apple Silicon Homebrew
+if [ -f "/opt/homebrew/bin/brew" ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 ### Custom Functions ###
 #Start GPG Agent if not already started
 if [ ! -f "/tmp/gpgStarted.lock" ]; then
