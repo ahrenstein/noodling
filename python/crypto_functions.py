@@ -29,7 +29,7 @@ COINGECKO_TOKENS = ["defipulse-index", "tribe-2", "ripple",
                     "money-party", "btc-2x-flexible-leverage-index",
                     "bankless-bed-index", "alchemix", "olympus",
                     "governance-ohm", "ethereum-name-service",
-                    "bankless-dao", "robot", "gas-dao"]
+                    "bankless-dao", "robot", "gas-dao", "citadao"]
 
 
 # Create custom authentication for CoinbasePro
