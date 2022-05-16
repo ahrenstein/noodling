@@ -85,15 +85,15 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
         print('No data found.')
     else:
         for row in values:
-            # Hardcoding DAI/USDC/GUSD to always be $1 for the sake of math
+            # Hard-coding DAI/USDC/GUSD to always be $1 for the sake of math
             if row[0] in ["DAI", "USDC", "GUSD"]:
                 current_prices.append([1])
-            # Logic to use CoinGecko for coins Coinbase doesn't like
-            elif row[0] in crypto_functions.COINGECKO_TOKENS:
-                current_prices.append([crypto_functions.coingecko_price_check(row[0])])
-            else:
+            # Logic to use Coinbase for coins we wnant to skip CoinGecko for
+            elif row[0] in crypto_functions.COINBASE_TOKENS:
                 current_prices.append([crypto_functions.coinbase_price_check(
                     coinbase_creds[0], coinbase_creds[1], row[0])])
+            else:
+                current_prices.append([crypto_functions.coingecko_price_check(row[0])])
             date_range.append([datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S")])
         update_sheet_column(sheet, sheet_id, "Simple!J11:J51", current_prices)
         update_sheet_column(sheet, sheet_id, "Simple!L11:L51", date_range)

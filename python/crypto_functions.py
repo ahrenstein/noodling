@@ -24,12 +24,8 @@ from requests.auth import AuthBase
 from pycoingecko import CoinGeckoAPI
 
 
-# List of tokens that the Coinbase API doesn't support
-COINGECKO_TOKENS = ["defipulse-index", "tribe-2", "ripple",
-                    "money-party", "btc-2x-flexible-leverage-index",
-                    "bankless-bed-index", "alchemix", "olympus",
-                    "governance-ohm", "ethereum-name-service",
-                    "bankless-dao", "robot", "gas-dao", "citadao"]
+# List of tokens to use the Coinbase API for instead of Coingecko
+COINBASE_TOKENS = ["ADA", "ALGO", "BTC", "DOGE", "ETH", "MATIC"]
 
 
 # Create custom authentication for CoinbasePro
