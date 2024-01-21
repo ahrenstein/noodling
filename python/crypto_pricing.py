@@ -43,13 +43,14 @@ def update_sheet_column(google_sheet, sheet_id, sheet_range, content):
                                      body=send_body).execute()
 
 
-def main(sheet_id, credentials_file, coinbase_creds_file):
+def main(sheet_id, credentials_file, cmc_api_key, coinbase_creds_file):
     """
     The main function where all code is called from
 
     Args:
     sheet_id: The UID of the Google Sheet
     credentials_file: The path to your Google credentials.json
+    cmc_api_key: The CoinMarketCap API key
     coinbase_creds_file: The path to your Coinbase coinbase.json
     """
     # NOTE: All ranges are hardcoded as this script is for a very specific use case
@@ -88,12 +89,15 @@ def main(sheet_id, credentials_file, coinbase_creds_file):
             # Hard-coding DAI/USDC/GUSD to always be $1 for the sake of math
             if row[0] in ["DAI", "USDC", "GUSD"]:
                 current_prices.append([1])
-            # Logic to use Coinbase for coins we wnant to skip CoinGecko for
+            # Hard code a zero value for coins we can't currently track well
+            elif row[0] in crypto_functions.UNTRACKED_TOKENS:
+                current_prices.append([0])
+            # Logic to use Coinbase for coins we want to skip CoinMarketCap for
             elif row[0] in crypto_functions.COINBASE_TOKENS:
                 current_prices.append([crypto_functions.coinbase_price_check(
                     coinbase_creds[0], coinbase_creds[1], row[0])])
             else:
-                current_prices.append([crypto_functions.coingecko_price_check(row[0])])
+                current_prices.append([crypto_functions.coinmarketcap_price_check(cmc_api_key, row[0])])
             date_range.append([datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S")])
         update_sheet_column(sheet, sheet_id, "Simple!J11:J51", current_prices)
         update_sheet_column(sheet, sheet_id, "Simple!L11:L51", date_range)
@@ -115,6 +119,10 @@ if __name__ == '__main__':
         help="The path to your Coinbase coinbase.json file", required=True
     )
     PARSER.add_argument(
+        '-m', '--coinMarketCapApiKey', type=str,
+        help="Your CoinMarketCap API Key", required=True
+    )
+    PARSER.add_argument(
         '-s', '--sheetID', type=str,
         help="The Google Sheet UID", required=True
     )
@@ -123,5 +131,6 @@ if __name__ == '__main__':
     # Assign args to variables
     ARG_SHEET_ID = ARGS.sheetID
     ARG_GOOGLE_CREDS = ARGS.googleCredsFile
+    ARG_CMC_API_KEY = ARGS.coinMarketCapApiKey
     ARG_COINBASE_CREDS = ARGS.coinbaseCredsFile
-    main(ARG_SHEET_ID, ARG_GOOGLE_CREDS, ARG_COINBASE_CREDS)
+    main(ARG_SHEET_ID, ARG_GOOGLE_CREDS, ARG_CMC_API_KEY, ARG_COINBASE_CREDS)

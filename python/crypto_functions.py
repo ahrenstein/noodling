@@ -21,11 +21,12 @@ import hmac
 import hashlib
 import requests
 from requests.auth import AuthBase
-from pycoingecko import CoinGeckoAPI
 
 
-# List of tokens to use the Coinbase API for instead of Coingecko
-COINBASE_TOKENS = ["ADA", "ALGO", "BTC", "DOGE", "ETH", "MATIC"]
+# List of tokens to use the Coinbase API for instead of CoinMarketCap
+COINBASE_TOKENS = ["BTC", "ALGO", "DOGE", "XRP", "ADA", "ETH", "MATIC", "ALCX", "ENS"]
+# List of tokens that can't currently be tracked
+UNTRACKED_TOKENS = ["robot", "citadao"]
 
 
 # Create custom authentication for CoinbasePro
@@ -116,18 +117,26 @@ def get_cbpro_creds_from_file(credentials_file):
     return cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase
 
 
-def coingecko_price_check(coin):
-    """Check the price of a cryptocurrency against CoinGecko to see
+def coinmarketcap_price_check(cmc_api_key, coin):
+    """Check the price of a cryptocurrency against CoinMarketCap to see
     if it fell below the minimum price
     Args:
+        cmc_api_key: The CoinMarketCap API key
         coin: The coin/token that we care about
     Returns:
         coin_current_price: The current price of the coin
     """
-    # Instantiate CoinGecko API and process query
-    coingecko_client = CoinGeckoAPI()
-    coin_current_price = float(coingecko_client.get_price
-                               (ids=coin, vs_currencies="usd")[coin]['usd'])
+    request_url = (f"https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/"
+                   f"latest?slug={coin}&convert=USD")
+    headers = {
+        "Accepts": "application/json",
+        "X-CMC_PRO_API_KEY": cmc_api_key,
+    }
+
+    response = requests.get(request_url, headers=headers)
+    data = response.json()
+    for key in data["data"]:
+        coin_current_price = data["data"][key]["quote"]["USD"]["price"]
     return coin_current_price
 
 
