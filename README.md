@@ -21,7 +21,7 @@ It emails the results via AWS SES using SMTP
 6. [crypto_functions.py](python/crypto_functions.py) - A small library for cryptocurrency functions.
 7. [crypto_pricing.py](python/crypto_pricing.py) - A script that manages a specific Google sheet I own regarding crypto prices.
 Config files in this repo
-8. [list_coinbase_pro_txs.py](python/list_coinbase_pro_txs.py) - A simple script to list the last 24 ours of Coinbase Pro transactions.
+8. [list_coinbase_pro_txs.py](python/list_coinbase_pro_txs.py) - A simple script to list the last 24 hours of Coinbase Pro transactions.
 9. [dns_to_terraform.py](python/dns_to_terraform.py) - A script to convert pi-hole/AdGuard lists into terraform `list(string)` variables
 
 -------------------------
@@ -54,6 +54,6 @@ not pass tests.
 
 Why not gists?
 --------------
-The main reason is because gists have a different URL every time they are updated while
+The main reason is that gists have a different URL every time they are updated while
 `https://github.com/ahrenstein/noodling/blob/master/.gitignore` will never change no matter how often I update it.
 This makes pulling these files via scripts reliable.
