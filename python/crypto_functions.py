@@ -24,7 +24,7 @@ from requests.auth import AuthBase
 
 
 # List of tokens to use the Coinbase API for instead of CoinMarketCap
-COINBASE_TOKENS = ["BTC", "ALGO", "DOGE", "XRP", "ADA", "ETH", "MATIC", "ALCX", "ENS"]
+COINBASE_TOKENS = ["BTC", "AERO", "ALGO", "DOGE", "XRP", "ADA", "ETH", "MATIC", "ALCX", "ENS"]
 # List of tokens that can't currently be tracked
 UNTRACKED_TOKENS = ["robot", "citadao"]
 
@@ -133,7 +133,7 @@ def coinmarketcap_price_check(cmc_api_key, coin):
         "X-CMC_PRO_API_KEY": cmc_api_key,
     }
 
-    response = requests.get(request_url, headers=headers)
+    response = requests.get(request_url, headers=headers, timeout=60)
     data = response.json()
     for key in data["data"]:
         coin_current_price = data["data"][key]["quote"]["USD"]["price"]
@@ -155,7 +155,7 @@ def coinbase_price_check(coinbase_api_key, coinbase_api_secret,
     api_url = 'https://api.coinbase.com/v2/'
     coinbase_auth = CoinbaseWalletAuth(coinbase_api_key, coinbase_api_secret)
     api_query = "prices/%s-USD/spot" % coin
-    result = requests.get(api_url + api_query, auth=coinbase_auth)
+    result = requests.get(api_url + api_query, auth=coinbase_auth, timeout=60)
     coin_current_price = float(result.json()['data']['amount'])
     return coin_current_price
 
@@ -176,7 +176,7 @@ def cbpro_tx_grab(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase, hours):
     api_url = 'https://api.pro.coinbase.com/'
     coinbase_auth = CoinbaseProAuth(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase)
     api_query = "transfers?before=%s" % timestamp
-    result = requests.get(api_url + api_query, auth=coinbase_auth)
+    result = requests.get(api_url + api_query, auth=coinbase_auth, timeout=60)
     return result
 
 
@@ -196,5 +196,5 @@ def cbpro_order_grab(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase, hour
     api_url = 'https://api.pro.coinbase.com/'
     coinbase_auth = CoinbaseProAuth(cbpro_api_key, cbpro_api_secret, cbpro_api_passphrase)
     api_query = 'orders?status=done&before=%s' % timestamp
-    result = requests.get(api_url + api_query, auth=coinbase_auth)
+    result = requests.get(api_url + api_query, auth=coinbase_auth, timeout=60)
     return result
