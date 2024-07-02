@@ -15,6 +15,7 @@ alias sed='gsed'
 alias fixgpg='gpg-connect-agent reloadagent /bye'
 alias history='history -E 0'
 alias duckexpire='defaults write ~/Library/Preferences/ch.sudo.cyberduck.plist s3.url.expire.seconds'
+alias ytbest='yt-dlp -f bestvideo+bestaudio/best --add-metadata -o "%(title)s.%(ext)s" --embed-chapters'
 
 ### Behavior Changes ###
 
