@@ -125,8 +125,9 @@ cd ~/
 # Make sure Vagrant uses virtualbox by default
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
 
-# Homebrew PATHs
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"
+# Various PATHs
+export GOPATH=$HOME/go
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:$GOPATH/bin"
 
 # Enable Apple Silicon Homebrew
 if [ -f "/opt/homebrew/bin/brew" ]; then
