@@ -127,7 +127,7 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 
 # Various PATHs
 export GOPATH=$HOME/go
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:$GOPATH/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:$GOPATH/bin:$HOME/.cargo/env:$HOME/.cargo/bin"
 
 # Enable Apple Silicon Homebrew
 if [ -f "/opt/homebrew/bin/brew" ]; then
