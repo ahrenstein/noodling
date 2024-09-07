@@ -15,6 +15,7 @@ alias sed='gsed'
 alias fixgpg='gpg-connect-agent reloadagent /bye'
 alias history='history -E 0'
 alias duckexpire='defaults write ~/Library/Preferences/ch.sudo.cyberduck.plist s3.url.expire.seconds'
+alias ytbest='yt-dlp -f bestvideo+bestaudio/best --add-metadata -o "%(title)s.%(ext)s" --embed-chapters'
 
 ### Behavior Changes ###
 
@@ -126,7 +127,7 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 
 # Various PATHs
 export GOPATH=$HOME/go
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:$GOPATH/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:$GOPATH/bin:$HOME/.cargo/env:$HOME/.cargo/bin"
 
 # Enable Apple Silicon Homebrew
 if [ -f "/opt/homebrew/bin/brew" ]; then
