@@ -24,7 +24,7 @@ from requests.auth import AuthBase
 
 
 # List of tokens to use the Coinbase API for instead of CoinMarketCap
-COINBASE_TOKENS = ["BTC", "AERO", "ALGO", "DOGE", "XRP", "ADA", "ETH", "MATIC", "ALCX", "ENS"]
+COINBASE_TOKENS = ["BTC", "AERO", "ALGO", "DOGE", "XRP", "ADA", "ETH", "POL", "ALCX", "ENS"]
 # List of tokens that can't currently be tracked
 UNTRACKED_TOKENS = ["robot", "citadao"]
 
