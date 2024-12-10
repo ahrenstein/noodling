@@ -8,8 +8,8 @@ alias resetaudio='sudo pkill -9 coreaudiod'
 alias ssh='ssh -A'
 alias root='ssh -A -lroot'
 alias mdate='date +%m%d%G%H%M'
-alias cssh='csshx --screen 2 --ssh_args "-A"'
-alias rcssh='csshx --screen 2 --ssh_args "-A -lroot"'
+alias cssh='csshx --ssh_args "-A"'
+alias rcssh='csshx --ssh_args "-A -lroot"'
 alias lock='open -a ScreenSaverEngine'
 alias sed='gsed'
 alias fixgpg='gpg-connect-agent reloadagent /bye'
@@ -170,11 +170,6 @@ rubydev()
 	# Set ruby to the 2.7.0 environment
 	if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 }
-
-# Set the Python environment to Hombrew's pyenv
-if command -v pyenv 1>/dev/null 2>&1; then
-	eval "$(pyenv init -)"
-fi
 
 # If it exists, load an optional config file that is manually managed
 if [[ -f ".extendzsh" ]]; then
