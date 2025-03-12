@@ -171,6 +171,11 @@ rubydev()
 	if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 }
 
+# Set the Python environment to Hombrew's pyenv
+if command -v pyenv 1>/dev/null 2>&1; then
+	eval "$(pyenv init -)"
+fi
+
 # If it exists, load an optional config file that is manually managed
 if [[ -f ".extendzsh" ]]; then
 	source .extendzsh
