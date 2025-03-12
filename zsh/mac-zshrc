@@ -122,9 +122,6 @@ export COPY_EXTENDED_ATTRIBUTES_DISABLE
 # New sessions start in ~/
 cd ~/
 
-# Make sure Vagrant uses virtualbox by default
-export VAGRANT_DEFAULT_PROVIDER=virtualbox
-
 # Various PATHs
 export GOPATH=$HOME/go
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:$GOPATH/bin:$HOME/.cargo/env:$HOME/.cargo/bin"
