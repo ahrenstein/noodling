@@ -10,7 +10,17 @@
 # See LICENSE
 #
 
+# Use the quiet (-q) flags so we only ever get IDs, regardless of how
+# Docker formats its human-readable table output.
+
 echo "Killing and deleting all containers..."
-for i in `docker ps -a | awk '{print $1}' | grep -v CONTAIN`; do docker kill $i; docker rm $i; done
+containers=$(docker ps -aq)
+if [ -n "$containers" ]; then
+  docker rm --force $containers
+fi
+
 echo "Deleting all images..."
-for i in `docker images | awk '{print $3}' | grep -v IMAGE`; do docker rmi --force $i; done
+images=$(docker images -aq | sort -u)
+if [ -n "$images" ]; then
+  docker rmi --force $images
+fi
